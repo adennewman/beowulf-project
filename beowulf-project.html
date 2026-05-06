@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beowulf: The Complete Final Archive</title>
+    <style>
+        :root {
+            --parchment: #fdfaf3;
+            --ink: #2c241e;
+            --accent: #8b4513;
+            --gold: #d4af37;
+            --sidebar-bg: #1a1a1a;
+        }
+
+        body, html { margin: 0; padding: 0; height: 100%; background-color: #000; font-family: 'Georgia', serif; }
+
+        /* --- SPLASH PAGE --- */
+        #splash-page {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #2c241e 0%, #000 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 1000; transition: opacity 1s ease;
+        }
+        #splash-page h1 { color: var(--gold); font-size: 3.5rem; letter-spacing: 8px; margin-bottom: 40px; }
+        .begin-btn {
+            background: transparent; color: var(--gold); border: 2px solid var(--gold);
+            padding: 20px 60px; font-size: 1.5rem; cursor: pointer; transition: all 0.3s;
+        }
+        .begin-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 30px var(--gold); }
+
+        /* --- MAIN SITE --- */
+        #main-site { display: flex; height: 100vh; display: none; opacity: 0; transition: opacity 1s ease; }
+        nav { width: 300px; background: var(--sidebar-bg); color: white; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; }
+        .nav-img { width: 100%; border: 1px solid var(--gold); margin-bottom: 20px; }
+        .nav-btn {
+            background: #333; color: #ccc; border: 1px solid #444; padding: 15px;
+            margin-bottom: 10px; cursor: pointer; text-align: left; font-family: 'Georgia', serif;
+        }
+        .nav-btn.active { background: var(--accent); color: white; border-color: var(--gold); }
+
+        main { flex: 1; display: flex; background: #000; }
+        .manuscript-viewer { flex: 1; display: flex; align-items: center; justify-content: center; background: #111; border-right: 2px solid var(--ink); }
+        .manuscript-viewer img { max-width: 95%; max-height: 90vh; border: 2px solid #333; }
+
+        .content-pane { flex: 1.4; background: var(--parchment); padding: 50px; overflow-y: auto; color: var(--ink); }
+        .folio-section { display: none; }
+        .folio-section.active { display: block; }
+
+        h2 { border-bottom: 2px solid var(--ink); padding-bottom: 10px; font-variant: small-caps; font-size: 2rem; }
+        .label { font-variant: small-caps; font-weight: bold; color: var(--accent); display: block; margin-top: 40px; font-size: 1.3rem; border-left: 5px solid var(--accent); padding-left: 15px; }
+        .text-block { line-height: 1.9; margin-bottom: 30px; white-space: pre-wrap; font-size: 1.1rem; }
+        .transcription { background: #f4eee0; padding: 30px; border-radius: 5px; border: 1px solid #ddd; }
+        .translation { padding: 30px; border-left: 4px solid #ddd; background: #fff; box-shadow: 2px 2px 5px rgba(0,0,0,0.05); }
+        .commentary-full { background: #ece4d0; padding: 35px; border-radius: 8px; line-height: 1.7; }
+        .sub-head { font-weight: bold; display: block; margin-top: 25px; color: var(--accent); text-transform: uppercase; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div id="splash-page">
+    <h1>BEOWULF</h1>
+    <img src="dragon.png" alt="Dragon" style="max-width:300px; margin-bottom:30px; border:2px solid var(--gold);">
+    <button class="begin-btn" onclick="startQuest()">BEGIN QUEST</button>
+</div>
+
+<div id="main-site">
+    <nav>
+        <img src="dragon.png" alt="Dragon" class="nav-img">
+        <button class="nav-btn active" onclick="showFolio('185v')">Folio 185V</button>
+        <button class="nav-btn" onclick="showFolio('186r')">Folio 186R</button>
+        <button class="nav-btn" onclick="showFolio('186v')">Folio 186V</button>
+        <button class="nav-btn" onclick="showFolio('187r')">Folio 187R</button>
+        <button class="nav-btn" onclick="showFolio('187v')">Folio 187V</button>
+        <button class="nav-btn" onclick="showFolio('history')">Manuscript History</button>
+        <button class="nav-btn" onclick="showFolio('thematics')">Thematics & Adaptations</button>
+    </nav>
+
+    <main>
+        <div class="manuscript-viewer">
+            <img id="ms-image" src="folio185v.jpg" alt="Manuscript Page">
+        </div>
+
+        <div class="content-pane" id="text-container">
+            <section id="185v" class="folio-section active">
+                <h2>Folio 185V</h2>
+                <span class="label">Transcription</span>
+                <div class="text-block transcription">Gegrette da gumena geliylcne hwate helmberend, hindeman siðe, swæse gesiðas: "Nolde ic sweord beran,</div>
+                <span class="label">Translation</span>
+                <div class="text-block translation">He saluted each one of the men, the brave helm-bearers, for this last undertaking with his beloved companions, "I would not bear this sword as my weapon to the Wyrm.
+
+"Always I stalked before him on foot, alone at the van¹, and so I must, as long as I live, go do battle, so long as this sword endures, which has often before and after-served me well, since I, before the hosts, became the hand-killer of Day-Raven², the Huga³ champion- he was never allowed to bring his breast-worthy jewels back to his Frisian lord- but the guardian of the banner crumbled in combat, a true prince in bravery. Nor was the blade his killer, but this battle-grip shattered his bone-houses, the pounding of his heart. Now must the sword's edge, the hand and the hardened blade battle over the hoard."
+
+Beowulf starting speaking again, making a boast for the very last time: "I dared many warlike things in my youth. I want to seek yet another fight, an elderly warden of his people, to perform another glorious deed, if the wicked harmer will seek me out from his earthen hall." Then he addressed every one of his men, brave bearing helmets, for the final time, his beloved comrades: "I don't want to bear...</div>
+                <span class="label">Commentary</span>
+                <div class="commentary-full">
+                    1 "Van" here refers to a military detachment and is short for "vanguard". The contemporary word "van" is a shortened version of "caravan". Despite the similarities between the two, they do not appear to be etymologically linked, as caravan is from a Persian word and vanguard is derived from French.
+                    <br><br>
+                    2 "Day-Raven" is a translation of the name Dæghrefne. It is theorized that he is given this name because of his act of regicide. He is a scavenger (raven) who struck in a time of relative prosperity (day).
+                    <br><br>
+                    3 Germanic tribe originating from Scandinavia.
+                    <br><br>
+                    He was not slain with a blade. This is an important detail because it all but guarantees that there was no formal combat or challenge.
+                    <br><br>
+                    5 Ribcage.
+                    <br><br>
+                    Calling the dragon "the wicked harmer" is a clear indication of the association that dragons had with Satan. They were cunning and hated mankind. Despite being a pagan story, the Christian influence is obvious throughout Beowulf.
+                </div>
+            </section>
+
+            <section id="186r" class="folio-section">
+                <h2>Folio 186R</h2>
+                <span class="label">Transcription</span>
+                <div class="text-block transcription">Gif ic [w]ifce hu [w]iðõam aglæcan elles | Mæhte gylpe [w]iðgripan S[w]a ic gio [w]io Grendle dide ac ic ðær heaðu fyres reões hattres forðon ic me on hafu bord byrnan nelle ic beorges [w]eard oferfleon fotes trem ac unc furður sceal [w]eorðan æt [w]ealle swa unc wyrd geteod metod manna gehwæs Ic eom on mode From þæt ic wið þone guõflogan gylp ofer Sitte gebide ge on beorge byrnum werede secgas on sear[w]um h[w]æðer sel mæge æfter wælræse wunde gedygan uncer twega. Nis þæt eower sið ne gemet mannes, nefne min anes, þæt he wið aglæcean eofoðo dæle, eorlscype efne. Ic mid elne sceall gold gegangan, oõõe guð nimeð, feorhbealu frecne, frean eowerne!" Aras ða byronde rof oretta, heard under helme, hiorosercean bær under stancleofu, strengo getruwode anes mannes. Ne bið swylc earges sið! Geseah ða be wealle</div>
+                <span class="label">Translation</span>
+                <div class="text-block translation">if I knew how I might go against this fiend, how could I grapple as I did long ago against Grendel? I have hope, for I know it commands breaths of war-fire and poison; therefore I will have on shields and armour. I will not flee a footstep from the mountain, but we two will draw to our destiny at the wall, where God meets man. I am brave in mind, and I will go there to the war-flier, and boast no more. Wait in your armor on the hill, defended in your breastplates, to discover which of us two will better survive their battle wounds. Your journey is not proper for the likes of man, except for me alone, that one should prepare your share of strength and nobility, against this terrible foe. I am obliged to seek that treasure with utmost zeal, until war takes your lord away to death in fatal battle!" Then that brave warrior raised his shield, stern under his helmet, bore his chainmail under the stone-cliffs, and trusted the strength of one man alone. Such an endeavor was not wretched! He saw many multitudes of them by the wall.</div>
+                <span class="label">Commentary</span>
+                <div class="commentary-full">
+                    7 In Beowulf there are 2 different types of dragons that can be discerned: sædracan (sea dragons) and eorõdracan (earth dragons). This dragon is an earth dragon. The sea dragons have their own interesting history.
+                    <br><br>
+                    Readers may find it humorous that Beowulf seriously considered wrestling the dragon before deciding the dragon's fire breath and venom was too dangerous. The commentators may have also found this humorous.
+                </div>
+            </section>
+
+            <section id="186v" class="folio-section">
+                <h2>Folio 186V</h2>
+                <span class="label">Transcription</span>
+                <div class="text-block transcription">se de [w]orna fela gu[m]cytcu[m] god guða ge- digde hilde hlem ma pon hnitan feðan stodan stan bogan strea[m] utponan. brecan ofbeorge [w]æs pære burnan [w]ælm heaðо- fyru[m] hat. nemeuhte horde neah un- byrnende ænige h[w]ile deop ge dygan for dracan lege. letða ofbreostu[m] ðahe gebolgen [w]æs [W]eder Geata leod [w]ord ut faran stearc heort styrmde stefn in becom heaðo torht hlynnan under harne stan hete [w]æs onhrered hord- weard oncnio[w] mannes reorde næs õær mara fyrst freode to friclan fro[m] ærest c[w]om oruð aglæcean ut ofstane hat hilde s[w]at Hruse dynede biorn under beorge bordrand ons[w]af [w]iðõam gryre gieste Geata dryhten ða [w]æs hrung bogan heorte gefysed sæcce toseceanne s[w]eord ær gebræd god guốcyning gomele lafe ecgu[m] un- gleaw Ægh[w]æðru[m] [w]æs bealo hycgendra</div>
+                <span class="label">Translation</span>
+                <div class="text-block translation">good men of manly qualities, who had survived many wars, when companies clashed. And there stood a stone arch and out from there a stream that burst forth from the barrow; unable to endure the surging stream of hot deadly fire nor be near the treasure and endure inside the deep at any time without burning because of the dragon fire. Therefore, the man of the Geates, then from his breast a word fared, the stout-hearted stormed and clearsounding in battle, roared under the grey stone. The guardian of treasure recognized a man's voice; his hate was aroused. There was no more time to ask for friendship. Out from the stone, first came forth the breath of the formidable one, a hot hostile vapor. The Earth resounded. At the foot of the barrow, the warrior lord of the Geates turned his shield against the dreadful stranger; Against the gryreġieste, the gates of the Lord; then was ring-bow heart hastened to seek battle. The sword was early drawn by the warlike king, old bequest, sword unslāw; To each was evil-doers terror from another.</div>
+                <span class="label">Commentary</span>
+                <div class="commentary-full">
+                    "Hard by the rock-face that hale veteran, a good man who had gone repeatedly into combat and danger and come through," (Beowulf, lines 2542-2544). The writer is attempting to bring the reader into the mind of a fighter going on the journey. Trying to describe the location and invoke emotional reactions within the reader.
+                    <br><br>
+                    When the writer describes Beowulf as the "good man", Beowulf is a good man in Anglo-Saxon history due to his courage, loyalty, and strength. Values that are highly valued in a society with a culture of battle.
+                    <br><br>
+                    The poem would be recited outside by a scop, an entertainer, who would attempt to use the imagery and details provided by the writer to incite the crowd into imagining themselves within the poem. The way a scop would change their voice, tone, and their inflections to invoke an emotional connection with the crowd.
+                    <br><br>
+                    The hoard-guard (a dragon) hears Beowulf and comes out to fight to defend his hoard and fight the intruders. It stands to show a contrast between Beowulf's generosity as a king and the selfish hoarding nature of the dragon for greed. There would be no peace between the monster and humans.
+                    <br><br>
+                    The usage of a barrow, commonly seen above a burial within the era suggests this and the failure of his shield. His shield, which is meant to protect him, turns against him as it becomes destroyed by the dragon's flames. The location and failure of his own equipment attempts to illustrate to the audience that Beowulf's fight in his old age will more than likely be his end. Shield and Dragon could be self-referred.
+                </div>
+            </section>
+
+            <section id="187r" class="folio-section">
+                <h2>Folio 187R</h2>
+                <span class="label">Transcription</span>
+                <div class="text-block transcription">Broga fram oðram stiðmoð gestod wið steapne rond winia bealdor Đa se wyrm gebeah snude to rome leone searwum Bad gepat da byrnende gebogen scriðan Tos sape serntan serlo pelgebearg life Ond lice laeran lipile maeru peodne õonne His myne sohte tan he õrfynste for man togone pealtan moste spalnma for Dyno nege senaf linet aetlutde hond Abnaed geata dryhten gnyre sahne up Inegelaseð sio reg gepac brun on baon pne floh Bat unspidon õon his diod crning pearfe hæfde, bysigum gebæded. Þa wæs beorges weard æfter heaðuswenge on hreoum mode. Wearp wælfyre; wide sprungon hildeleoman. Hreðsigora ne gealp goldwine Geata. Guðbill geswac, nacod æt niðe, swa hyt no sceolde, iren ærgod. Ne wæs þæt eðe sið, þæt se mæra maga Ecgõeowes grundwong pone ofgyfan wolde. Sceolde willan wic eardian</div>
+                <span class="label">Translation</span>
+                <div class="text-block translation">Courageously stood with a tall shield friend lord, then the dragon turned quickly together; he had skill and experience. The departed burn turned and glided to the community to hasten. The shield fully protected the glorious king's life and body for a little while when his mind sought, where he then for a little while, first day... Control may so him fate did not decree Glory in battle. Hand lifted up Lord of Geats, terrifying struck Ingeldafe that the blade failed Shiny on bone, bit less strongly Than his great king need have, Busy forced. Then was mountains guard After battle-stroke on fierce courage Warp slaughter-fire widely sprang Battle-light. Hreðsigora did not boast Gold-friend Geata. Guðbill geswac, Naked at dark, so it no must Iron before-good. Nor was that easy journey That the famous to be able to Ecgðeowes Ground-plain he would give up Against his own will Otherwise be elsewhere inhabiting the abode</div>
+                <span class="label">Commentary</span>
+                <div class="commentary-full">
+                    In this section, the dragon is immediately described as a kind of threat or "terror" in this case, which sets the tone for the fight. At the same time, Beowulf is presented as steady and resolute, as he stands beyond his shield as the "lord of his people."
+                    <br><br>
+                    However, unlike earlier in the poem, Beowulf does not rush forward but instead he waits while the dragon coils and approaches. The contrast between Beowulf's stillness and the dragon's rushed movement creates tension suggesting that this battle will not follow the same pattern as his earlier victories.
+                    <br><br>
+                    The mention of wyrd (fate) is significant because it's clear that the outcome of the fight has been somewhat determined. This moment highlights a key theme: the tension between effort and fate. Beowulf continues to fight even though fate is working against him.
+                    <br><br>
+                    The failure of the sword suggests that Beowulf himself is no longer as powerful as he once was. Instead of being defeated, the dragon becomes even more dangerous, responding with fire that spreads quickly.
+                    <br><br>
+                    The final line suggests that he is fated to remain there, to die in that place. The idea that he must dwell on the battlefield ties his physical position to his destiny, marking a shift away from heroic victory and toward how he confronts death. Ultimately, his refusal to leave the battle, even when defeat is inevitable, becomes the strongest expression of his heroism.
+                </div>
+            </section>
+
+            <section id="187v" class="folio-section">
+                <h2>Folio 187V</h2>
+                <span class="label">Transcription</span>
+                <div class="text-block transcription">Sceal æghwic mon alutan lændagas. Nas ða long to ðon ðæt õu aglæcan hy eft gemetton. Hynte hyne honðweard, hreõer æðme weoll, niwan stefne niwan strefne. Nearo õrowode, fyre befongen se õe are folce weold. Nealles hi on heape heandgestallan, Æðelinga bearn, ymbe gestodon hildecystum ac hy on holt bugon ealdre burgan. Hiora in anu [w]eoll sefa wið sorghum. Sibb æfre ne mæg wiht onwendan ðam ða wel õenceð. XXXVI Weglaf wæs haten, Weoxstanes suni, leoflic lindwiga leod Scylfinga mæg æflheres. Geseah his mondryhten under heregriman hat õrowpian gemunde ða ða are õe he him aer forgaef [w]icstede weligne Wagmundmga folcrihta gehwylc swa his fæden ahtre ne mihte ða forhabban hond rond gefeng geolwe linde gomelswyr getæh õat wæs mid eldum Eanmundes laf</div>
+                <span class="label">Translation</span>
+                <div class="text-block translation">thus very warrior man Leave transitory days So that monster Guardian's heart injure New time Encompass crime towards it, that long headland he met again breathing breath accustom suffer distress present that one person before</div>
+                <span class="label">Commentary</span>
+                <div class="commentary-full">
+                    The transient of life: "laendagas" life was not something that you owned, but more so it was something that was in contract to you from God. "So every man must yield the leasehold of his days." This mean that every man must be able to say goodbye to the kingdom, the era of the great king is over.
+                    <br><br>
+                    Even the best of warriors cannot earn more time from God... this idea sets the tone for the rest of the poem. This part in the poem is pivotal because it displays a point where Beowulf realizes that loyalty is greater than brute force strength.
+                    <br><br>
+                    By no means did his comrades-in-arms, the sons of princes, stand around him in a troop with battle-virtue; instead, they fled to the woods to save their lives. This reveals that Beowulf's handpicked warriors left him when he needed them the most. They broke their loyalty to him, and their agreement to the king bringing on themselves pure shame.
+                    <br><br>
+                    The last section on this text is significant because it says despite the others straying away, there was the loyalty of one...the author is saying that one loyal man is worth far more than 10 individuals with no hearts.
+                </div>
+            </section>
+
+            <section id="history" class="folio-section">
+                <h2>Manuscript History</h2>
+                <div class="commentary-full">
+                    <span class="sub-head">Nowell Codex Background</span>
+                    The existence of Beowulf today is nothing short of a miracle. The poem survives in a single volume known as the Nowell Codex (or Cotton MS Vitellius A.xv). While the author remains a mystery, we know the physical book was produced by two different scribes working in a "historical window" between 975 and 1025 AD. The first scribe recorded the first 1,939 lines before the second scribe took over to finish the epic.
+                    <br><br>
+                    <span class="sub-head">The Fire of 1731</span>
+                    October 23, 1731 the library that contained this piece caught on fire. In the early hours, the building went up in flames. The keeper of the manuscripts, Richard Bentley, dressed only in wig and nightgown, rescued the fifth-century Codex Alexandrinus - although the story that he leapt through a window to do so is unlikely. Beowulf survived the heat, but the vellum pages were badly scorched and became incredibly brittle.
+                    <br><br>
+                    <span class="sub-head">Restoration and Preservation</span>
+                    For over a century, the manuscript was slowly dying; the charred edges would flake off into "dust" every time a page was turned. In 1786, Grímur Jónsson Thorkelin commissioned transcripts. Because he copied the text before the edges had fully crumbled, he preserved hundreds of words that have since physically vanished. It wasn't until 1845 that the British Museum halted this decay by framing every individual page in protective paper mounts. Efforts were not taken until almost 2000 letters had disappeared from the out edge of the pages.
+                </div>
+            </section>
+
+            <section id="thematics" class="folio-section">
+                <h2>Thematics & Adaptations</h2>
+                <div class="commentary-full">
+                    <span class="sub-head">Dragons & Smaug Comparison</span>
+                    The battle between the Dragon and Beowulf is the first time in European history of a "fire-breathing" dragon. One of the most notorious Beowulf-esque dragons is Smaug. A similarity can be made in the fact that they are drawn to anger by a thief. In Beowulf, the dragon attacks because of the loss of a single chalice. Tolkien has stated Smaug was based off of Fafnir, but the Fire-Breathing aspect has direct ties to Beowulf's dragon.
+                    <br><br>
+                    <span class="sub-head">Symbolism and Sin</span>
+                    Dragons in the European world were often associated with the sins of: Greed, Wrath, and Gluttony. These ties to the "Deadly Sins" are due to the association of serpents in pagan mythology, where the Christian churches attempted to merge the two. Calling the dragon "the wicked harmer" is a clear indication of the association with Satan.
+                    <br><br>
+                    <span class="sub-head">Film Adaptations</span>
+                    In the 2007 film adaptation, the Dragon is actually part of Beowulf's family—the son of Beowulf and the mother of Grendel. In Beowulf's Dragon, he has a soft underbelly which is exposed enough for Beowulf to stab him. In The Hobbit movie, Smaug is slain by an exposed scale.
+                    <br><br>
+                    <span class="sub-head">Kingship</span>
+                    A "good king" was a king who would share his wealth and riches with his people. The opposite is said of Beowulf's dragon, who hoards all he had, in direct juxtaposition with Beowulf.
+                    <br><br>
+                    <span class="sub-head">Wyrd and Lof</span>
+                    Wyrd means fate: the characters believe that a person's end is predetermined. For a hero, greatness is facing one's fate with courage. Lof means immortal fame: immortality could only be achieved through stories told by the living. Every heroic act was a calculated effort to ensure their name lived on in the songs of poets (scops).
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<script>
+    function startQuest() {
+        document.getElementById('splash-page').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('splash-page').style.display = 'none';
+            document.getElementById('main-site').style.display = 'flex';
+            setTimeout(() => { document.getElementById('main-site').style.opacity = '1'; }, 50);
+        }, 1000);
+    }
+
+    function showFolio(id) {
+        const img = document.getElementById('ms-image');
+        if (id === 'history') img.src = 'ashburnham.png';
+        else if (id === 'thematics') img.src = 'smaug.png';
+        else img.src = 'folio' + id + '.jpg';
+
+        const sections = document.querySelectorAll('.folio-section');
+        sections.forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+
+        const btns = document.querySelectorAll('.nav-btn');
+        btns.forEach(b => b.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        document.getElementById('text-container').scrollTop = 0;
+    }
+</script>
+
+</body>
+</html>
